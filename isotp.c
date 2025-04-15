@@ -309,11 +309,11 @@ int isotp_send_with_id(IsoTpLink *link, uint32_t id, const uint8_t payload[], ui
 
     if (size > link->send_buf_size) {
         isotp_user_debug("Message size too large. Increase ISO_TP_MAX_MESSAGE_SIZE to set a larger buffer\n");
-        const int32_t messageSize = 128;
-        char message[messageSize];
-        int32_t writtenChars = snprintf(&message[0], 128, "Attempted to send %u  bytes; max size is %u!\n", (unsigned int)size, (unsigned int)link->send_buf_size);
+#define MAX_MESSAGESIZE 128
+        char message[MAX_MESSAGESIZE];
+        int32_t writtenChars = snprintf(&message[0], MAX_MESSAGESIZE, "Attempted to send %u  bytes; max size is %u!\n", (unsigned int)size, (unsigned int)link->send_buf_size);
 
-        assert(writtenChars <= messageSize);
+        assert(writtenChars <= MAX_MESSAGESIZE);
         (void) writtenChars;
         
         isotp_user_debug(message);
